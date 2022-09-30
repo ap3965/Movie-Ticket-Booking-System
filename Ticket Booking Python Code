@@ -1,0 +1,166 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Tue Mar 23 12:43:36 2021
+
+@author: HP
+"""
+
+#MOVIE THEATRE BOOKING SYSTEM
+#By: Aditya Prasad Acharya
+
+#IMPORTING DATABASE
+
+import csv
+
+with open('E:\Aditya\Python Programming\\seats.csv', newline='') as csvfile:
+    seats=list(csv.reader(csvfile))
+    
+#DEFINING FUNCTIONS
+
+def displayBookings():
+    #Display Bookings
+    print("")
+    print("=======================================")
+    print("")
+    for row in seats:
+        print(row)
+    print("")
+    print("=======================================")
+
+def bookSeat():
+    #Book Seats
+    for row in seats:
+        print(row)
+        
+    print("0-Available 1-Unavailable")
+    print("Row: Top to Bottom 1-6")
+    print("Column: Left to Right 1-8")
+    booked= False
+    while booked==False:
+        
+        row= int(input("Enter a row number (between 1 and 6)")) -1
+        column= int(input("Enter a column number (between 1 and 8)")) -1
+        
+        if seats[row][column]=="1":
+            print("This seat is already booked")
+        
+        else:
+            print("This seat is empty")
+            print("Booking seat.....")
+            seats[row][column]=1
+            print("We have now booked this seat for you")
+            booked=True
+        
+    #Rewrite the CSV with the new list of seats
+    writer= csv.writer(open("seats.csv", "w", newline= ""))
+    writer.writerows(seats)
+    
+def clearSeats():
+    #Clear Seats
+    for row in seats:
+        for i in range(len(row)):
+            row[i]="0"
+            
+            with open("seats.csv", newline= '', mode='w') as csvfile:
+                csv.writer(csvfile).writerows(seats)
+                
+def whatNext():
+    #Secondary Menu Options
+    print("+=======================================+")
+    print("+         CINEMA BOOKING SYSTEM         +")
+    print("+=======================================+")
+    print("")
+    print("1 - Book another seat")
+    print("x - Exit")
+    
+    choice = input("What would you like to do next?")
+    if choice=="1":
+        bookSeat()
+        displayBookings()
+        whatNext()
+        
+    elif choice=="x":
+        print("Good Bye!")
+    
+    else:
+        print("Invalid Menu Option")
+        print("Good Bye!")
+        
+#MAIN PROGRAM STARTS HERE
+
+print("+=======================================+")
+print("+        CINEMA BOOKING SYSTEM          +")
+print("+=======================================+")
+print("")
+print("Customer")
+print("Staff")
+print("x - Exit")
+
+choice = input("Use as? ")
+
+if choice=="Customer":
+    print("+=======================================+")
+    print("+        CINEMA BOOKING SYSTEM          +")
+    print("+=======================================+")
+    print("")
+    print("1 - Book a Seat")
+    print("x - Exit")
+    
+    choice = input("What would you like to do? ")
+    
+    if choice =="1":
+        bookSeat()
+        displayBookings()
+        whatNext()
+        
+    elif choice=="x":
+        print("Good Bye!")
+        
+    else:
+        print("Invalid Menu Option")
+        print("Good Bye!")
+        
+elif choice=="Staff":
+    #Making sure that it is an employee by asking for a password
+    
+    password= 123456
+    correctpassword= False
+    
+    while correctpassword== False:
+        enteredpassword= int(input("Please enter the correct password: "))
+        if enteredpassword==password:
+            correctpassword= True
+            
+    if correctpassword == True:
+        print("+=======================================+")
+        print("+           STAFF OPTIONS               +")
+        print("+=======================================+")
+        print("")
+        print("1 - Clear all Bookings")
+        print("2 - View all Bookings")
+        print("x - Exit")
+        
+        choice= input("What would you like to do?")
+        
+        if choice=="1":
+            print("Clearing Bookings...")
+            clearSeats()
+            print("All Booking are Cleared")
+            print("Good Bye!")
+            
+        elif choice=="2":
+            displayBookings()
+            
+        elif choice=="x":
+            print("Good Bye!")
+            
+        else:
+            print("Invalid Menu Option")
+            print("Good Bye!")
+            
+else:
+    print("Invalid Menu Option")
+    print("Good Bye!")
+    
+    
+    
